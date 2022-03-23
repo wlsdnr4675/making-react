@@ -24,7 +24,7 @@ module.exports = {
   // webpack이 최종적으로 서비스할 용도의 파일인가 아닌가 스위칭하는 옵션
   mode: "development",
   // 어떤 자바스크립트에서 시작?
-  entry: "./app.js",
+  entry: "./src/app.js",
   // 출력 정보
   output: {
     // 어느 디렉토리 명을 쓸꺼야 주로 distribution인 dist를 많이 사용
@@ -41,11 +41,11 @@ module.exports = {
     // 로더들을 지정하는 부분이다.
     rules: [
       {
+        // 모든 파일들을 바벨로더 처리하지 않는 파일들을 제거해줘야함.=> test, exclude
+        test: /\.js$/, //true 인것만
+        exclude: /node_modules/, // false 인것만
         // 어떤 로더 이름인지 적어준다.
         use: {
-          // 모든 파일들을 바벨로더 처리하지 않는 파일들을 제거해줘야함.=> test, exclude
-          test: /\.js$/, //true 인것만
-          exclude: /node_modules/, // false 인것만
           loader: "babel-loader",
           options: {
             // 미리 설치한 바벨 플러그인을 설정해주면 된다.
@@ -59,7 +59,7 @@ module.exports = {
   plugins: [
     // 스펙은 인스턴스를 만들어줘야함. => new  객체 사용
     new HtmlWebpackPlugin({
-      title: "2.3 setup webpack & babel",
+      title: "2.3 setup webpack & babel ",
       template: "index.html",
     }),
   ],
