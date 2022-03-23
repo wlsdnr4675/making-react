@@ -1,3 +1,9 @@
+export class Component {
+  constructor(props) {
+    this.props = props;
+  }
+}
+
 export const createDOM = (node) => {
   if (typeof node === "string") {
     return document.createTextNode(node);
@@ -12,13 +18,32 @@ export const createDOM = (node) => {
   return element;
 };
 
+const makeProps = (props, children) => ({
+  ...props,
+  children: children.length === 1 ? children[0] : children,
+});
 export const createElement = (tag, props, ...children) => {
   props = props || {};
-  return {
-    tag,
-    props,
-    children,
-  };
+  if (typeof tag === "function") {
+    // 클래스형 컴포넌트 위한 분기
+    if (tag.prototype instanceof Component) {
+      const instance = new tag(makeProps(props, children));
+      return instance.render();
+    } else {
+      // 함수형 컴포넌트 분기
+      if (children.length > 0) {
+        return tag(makeProps(props, children));
+      } else {
+        return tag(props);
+      }
+    }
+  } else {
+    return {
+      tag,
+      props,
+      children,
+    };
+  }
 };
 
 export const render = (vdom, container) => {
