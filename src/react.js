@@ -48,9 +48,11 @@ export const createElement = (tag, props, ...children) => {
     if (tag.prototype instanceof Component) {
       const instance = new tag(makeProps(props, children));
       return instance.render();
+
       // hook setting 제약사항 알기 위한 컨셉 코드
       hooks[currentComponent] = null;
       currentComponent++;
+      //////////////////////////////////////
     } else {
       // 함수형 컴포넌트 분기
       if (children.length > 0) {
